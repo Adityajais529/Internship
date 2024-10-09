@@ -1,0 +1,116 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+class Task {
+public:
+    Task(const std::string& description) : description(description), completed(false) {}
+
+    void markCompleted() {
+        completed = true;
+    }
+
+    std::string getStatus() const {
+        return completed ? "[✓] " : "[✗] ";
+    }
+
+    std::string getDescription() const {
+        return description;
+    }
+
+private:
+    std::string description;
+    bool completed;
+};
+
+class ToDoList {
+public:
+    void addTask(const std::string& description) {
+        tasks.emplace_back(description);
+        std::cout << "Task added: \"" << description << "\"" << std::endl;
+    }
+
+    void viewTasks() const {
+        if (tasks.empty()) {
+            std::cout << "No tasks available." << std::endl;
+            return;
+        }
+        for (size_t i = 0; i < tasks.size(); ++i) {
+            std::cout << i + 1 << ": " << tasks[i].getStatus() << tasks[i].getDescription() << std::endl;
+        }
+    }
+
+    void markTaskCompleted(size_t index) {
+        if (index < tasks.size()) {
+            tasks[index].markCompleted();
+            std::cout << "Task \"" << tasks[index].getDescription() << "\" marked as completed." << std::endl;
+        } else {
+            std::cout << "Invalid task number." << std::endl;
+        }
+    }
+
+    void removeTask(size_t index) {
+        if (index < tasks.size()) {
+            std::cout << "Task removed: \"" << tasks[index].getDescription() << "\"" << std::endl;
+            tasks.erase(tasks.begin() + index);
+        } else {
+            std::cout << "Invalid task number." << std::endl;
+        }
+    }
+
+private:
+    std::vector<Task> tasks;
+};
+
+int main() {
+    ToDoList todoList;
+    int choice;
+    
+    do {
+        std::cout << "\nTo-Do List Manager" << std::endl;
+        std::cout << "1. Add Task" << std::endl;
+        std::cout << "2. View Tasks" << std::endl;
+        std::cout << "3. Mark Task as Completed" << std::endl;
+        std::cout << "4. Remove Task" << std::endl;
+        std::cout << "5. Exit" << std::endl;
+        std::cout << "Choose an option: ";
+        
+        std::cin >> choice;
+        std::cin.ignore(); 
+
+        switch (choice) {
+            case 1: {
+                std::string taskDescription;
+                std::cout << "Enter the task description: ";
+                std::getline(std::cin, taskDescription);
+                todoList.addTask(taskDescription);
+                break;
+            }
+            case 2:
+                todoList.viewTasks();
+                break;
+            case 3: {
+                size_t taskNumber;
+                std::cout << "Enter task number to mark as completed: ";
+                std::cin >> taskNumber;
+                todoList.markTaskCompleted(taskNumber - 1);
+                break;
+            }
+            case 4: {
+                size_t taskNumber;
+                std::cout << "Enter task number to remove: ";
+                std::cin >> taskNumber;
+                todoList.removeTask(taskNumber - 1);
+                break;
+            }
+            case 5:
+                std::cout << "Exiting the To-Do List Manager." << std::endl;
+                break;
+            default:
+                std::cout << "Invalid option. Please try again." << std::endl;
+                break;
+        }
+    } while (choice != 5);
+
+    return 0;
+}
