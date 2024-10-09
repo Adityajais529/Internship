@@ -1,0 +1,72 @@
+
+#include <iostream>
+#include <vector>
+
+void displayBoard(const std::vector<char>& board) {
+    std::cout << "Current board:\n";
+    std::cout << " " << board[0] << " | " << board[1] << " | " << board[2] << "\n";
+    std::cout << "---|---|---\n";
+    std::cout << " " << board[3] << " | " << board[4] << " | " << board[5] << "\n";
+    std::cout << "---|---|---\n";
+    std::cout << " " << board[6] << " | " << board[7] << " | " << board[8] << "\n";
+}
+
+bool checkWin(const std::vector<char>& board, char player) {
+ 
+    return ( (board[0] == player && board[1] == player && board[2] == player) ||
+             (board[3] == player && board[4] == player && board[5] == player) ||
+             (board[6] == player && board[7] == player && board[8] == player) ||
+             (board[0] == player && board[3] == player && board[6] == player) ||
+             (board[1] == player && board[4] == player && board[7] == player) ||
+             (board[2] == player && board[5] == player && board[8] == player) ||
+             (board[0] == player && board[4] == player && board[8] == player) ||
+             (board[2] == player && board[4] == player && board[6] == player) );
+}
+
+bool isDraw(const std::vector<char>& board) {
+    for (char cell : board) {
+        if (cell == ' ') {
+            return false; 
+        }
+    }
+    return true; 
+}
+
+int main() {
+    std::vector<char> board(9, ' '); 
+    char currentPlayer = 'X';
+    int move;
+
+    while (true) {
+        displayBoard(board);
+        std::cout << "Player " << currentPlayer << ", enter your move (1-9): ";
+        std::cin >> move;
+        move--; 
+
+ 
+        if (move < 0 || move >= 9 || board[move] != ' ') {
+            std::cout << "Invalid move! Try again.\n";
+            continue;
+        }
+
+        board[move] = currentPlayer; 
+
+  
+        if (checkWin(board, currentPlayer)) {
+            displayBoard(board);
+            std::cout << "Player " << currentPlayer << " wins!\n";
+            break;
+        }
+        
+        if (isDraw(board)) {
+            displayBoard(board);
+            std::cout << "It's a draw!\n";
+            break;
+        }
+
+    
+        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+    }
+
+    return 0;
+}
