@@ -1,0 +1,59 @@
+#include <iostream>
+
+void displayMenu() {
+    std::cout << "Select an operation:\n";
+    std::cout << "1. Addition\n";
+    std::cout << "2. Subtraction\n";
+    std::cout << "3. Multiplication\n";
+    std::cout << "4. Division\n";
+    std::cout << "5. Exit\n";
+}
+
+int main() {
+    double num1, num2;
+    int choice;
+
+    while (true) {
+        displayMenu();
+        
+        std::cout << "Enter your choice (1-5): ";
+        std::cin >> choice;
+
+       
+        if (choice == 5) {
+            std::cout << "Exiting the calculator. Goodbye!" << std::endl;
+            break;
+        }
+
+   
+        std::cout << "Enter first number: ";
+        std::cin >> num1;
+        std::cout << "Enter second number: ";
+        std::cin >> num2;
+
+        switch (choice) {
+            case 1:
+                std::cout << "Result: " << num1 + num2 << std::endl;
+                break;
+            case 2:
+                std::cout << "Result: " << num1 - num2 << std::endl;
+                break;
+            case 3:
+                std::cout << "Result: " << num1 * num2 << std::endl;
+                break;
+            case 4:
+                if (num2 != 0) {
+                    std::cout << "Result: " << num1 / num2 << std::endl;
+                } else {
+                    std::cout << "Error: Division by zero!" << std::endl;
+                }
+                break;
+            default:
+                std::cout << "Invalid choice. Please select a valid operation." << std::endl;
+        }
+
+        std::cout << std::endl; 
+    }
+
+    return 0;
+}
